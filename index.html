@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Ember Guides</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="style/main.css">
+
+<a href="#navigation" class="visuallyhidden focusable">Jump to navigation</a>
+
+<div id="wrapper">
+  <header role="banner">
+    <h1><a href="./">The Ember Guide For Complete Beginners</a></h1>
+  </header>
+
+  <nav role="navigation" id="navigation" aria-labelledby="navheading">
+    <div id="navheading">Table of Contents</div>
+    <ol>
+      <li><a href="#introduction">Introduction</a>
+      <li><a href="#setting-up">Setting up</a>
+      <li><a href="#first-steps">First steps</a>
+    </ol>
+  </nav>
+
+  <main role="main">
+    <section id="introduction">
+      <header>
+        <h2>Introduction</h2>
+      </header>
+      <p>
+        Welcome to the Ember Guide For Complete Beginners! These guides will teach you how
+        to build ambitious web applications with the Ember.js framework.
+      <p>
+    </section>
+
+    <section id="setting-up">
+      <header>
+        <h2>Setting Up</h2>
+      </header>
+      <p>
+        Ember applications are most commonly built with a tool called
+        <a href="https://ember-cli.com">Ember CLI</a>, this tool helps you
+        generate a new application, and also helps you with building, serving
+        and testing your application.
+      <p>
+        Before you can install Ember CLI, you need to make sure you have
+        <a href="https://nodejs.org/en/">Node.js</a> and a Node package manager
+        installed. We will use the <a href="https://yarnpkg.com">Yarn</a>
+        package manager throughout the guides.
+      <p>
+        After you have installed Node.js and Yarn, we can install Ember CLI by
+        running the following command:
+
+      <pre><code>yarn global add ember-cli</code></pre>
+
+      <p>
+        Installing Ember CLI adds the <code>ember</code> command to your
+        terminal.  With the <code>ember</code> command you can generate a new
+        application:
+
+      <pre><code>ember new my-tutorial-app</code></pre>
+
+      <p>
+        If you run that command, it will generate an Ember application inside a
+        new folder called <code>my-tutorial-app</code>. If you <code>cd</code>
+        into the folder, you can start working on your application.
+
+      <pre><code>cd my-tutorial-app</code></pre>
+
+      <p>
+        Now we can start Ember CLI's development server, so we can preview our
+        changes in the browser:
+
+      <pre><code>ember serve</code></pre>
+
+      <p>
+        Running that command will output:
+
+      <pre><code>Livereload server on http://localhost:49152
+  Serving on http://localhost:4200/
+
+  Build successful - 8189ms.</code></pre>
+
+      <p>
+        Now you can visit <code>http://localhost:4200/</code> in your browser,
+        you will be greeted by the following page:
+        <img src="./img/welcome-ember-screenshot.png" alt="Welcome to Ember">
+
+      <p>
+        Congratulations! You are now ready to start learning how to write Ember
+        applications.
+    </section>
+
+    <section id="first-steps">
+      <header>
+        <h2>First Steps</h2>
+      </header>
+      <p>
+        Let's start by getting the application to show a friendly
+        <code>Hello World</code> in the browser. To achieve this, we have to add
+        a <a href="http://handlebarsjs.com">Handlebars</a> template to our
+        application. Handlebars templates look just like HTML, but with
+        handlebars expressions added. First we'll focus on the HTML part.
+      <p>
+        Templates are put in the <code>app/templates</code> directory of your
+        Ember application. Every application needs a
+        <code>application.hbs</code> to begin with. Let's add the following
+        <code>app/templates/application.hbs</code>:
+
+      <pre><code>&lt;h1&gt;Hello World!&lt;/h1&gt;</code></pre>
+
+      <p>
+        If you now look at <code>http://localhost:4200/</code>, you should see
+        the following:
+
+        <img src="./img/hello-world-screenshot.png" alt="Hello World">
+
+      <h3>Adding a variable</h3>
+
+      <p>
+        Now let's add a expression to our template. Add the following to your
+        <code>app/templates/application.hbs</code> template:
+
+      <pre><code>&lt;p&gt;Hello my name is {{name}}!&lt;/p&gt;</code></pre>
+
+      <p>
+        If you look at the result, you'll see <code>Hello my name is !</code>.
+        No name is being displayed. This is because the variable
+        <code>name</code> has not been defined yet.
+      <p>
+        Where do the values of variables in a template come from? Templates
+        belong to either a controller or a component. The properties of one of
+        those are the variables you can display in your template. What either a
+        controller or a component exactly is, will be explained later.
+      <p>
+        Instead of manually adding a file and filling in the basics, we'll use a
+        generator to do this for us. Go ahead an run the following command in
+        your terminal:
+
+      <pre><code>ember generate controller application</code></pre>
+
+      <p>
+        That command should output the following:
+
+      <pre><code>installing controller
+  create app/controllers/application.js
+installing controller-test
+  create tests/unit/controllers/application-test.js</code></pre>
+
+      <p>
+        This means that it added two files to your project, one file is
+        the file for your actual controller, the second is the file where the
+        tests for your controller go. We'll ignore the test file for now and
+        take a look at the <code>app/controllers/application.js</code> file:
+
+      <pre><code>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+});</code></pre>
+
+      <p>
+        The controller file imports the <code>Ember</code> variable and exports
+        a new sub-class of <code>Ember.Controller</code>.
+
+      <p>
+        We can now add the <code>name</code> property, this will make the
+        <code>{{name}}</code> expression display the value of the
+        <code>name</code> property.
+
+      <pre><code>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  name: 'Marten Schilstra'
+});</code></pre>
+
+      <p>
+        If we now look at the result, we should see the name being displayed:
+
+        <img src="./img/hello-my-name-is-screenshot.png" alt="Hello my name is Marten Schilstra!">
+
+      <aside class="break-point">
+        <strong>Break point</strong>
+        <p>
+          Now go ahead and play around with the application controller and
+          template a little. Try to add your age or your birthday as a property
+          on the controller and display it in the template.
+        <p>
+          <em>If you don't know what to do, that's ok. You can
+            re-read the previous part, or go ahead and keep on reading.</em>
+      </aside>
+
+      <h3>Adding a list of variables</h3>
+
+      <p>
+        Let's do something slightly more difficult. Let's add a list of our
+        hobbies to the page.
+
+      <p>
+        We can start by adding the <code>hobbies</code> property as an array of
+        strings to our <code>application</code> controller:
+
+      <pre><code>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  name: 'Marten Schilstra',
+  hobbies: ['Chess', 'Pinball', 'Hockey']
+});</code></pre>
+
+      <p>
+        And also add something to the <code>application</code> template to
+        display the hobbies:
+
+      <pre><code>&lt;p&gt;My hobbies are: {{hobbies}}&lt;/p&gt;</code></pre>
+
+      <p>
+        As a result you'll see the following:
+
+        <pre><code>My hobbies are: Chess,Pinball,Hockey</code></pre>
+
+      <p>
+        As you can see, Ember is smart enough to display arrays as a comma
+        separated list. What if we want to do something a little more fancy?
+        For example, what if we want to display the hobbies in an
+        <code>&lt;ul&gt;</code> list?
+
+      <p>
+        Let me introduce the <code>each</code> expression for handlebars
+        templates. It looks like this:
+
+      <pre><code>{{#each hobbies as |hobby|}}
+  {{hobby}}
+{{/each}}</code></pre>
+
+      <p>
+        The each expression takes your array of hobbies as argument and will
+        yield each item in the array one by one. The part of the template within
+        the each expression is rendered for each item in the given array.
+      <p>
+        Important to note is that the <code>each</code> expression is in the
+        block form. A expression in block form starts with a <code>#</code> sign
+        and the name of the expression.  It ends with a <code>/</code> and the
+        name of the expression.
+
+      <p>
+        The name between the vertical bars, <code>|hobby|</code>, is a new
+        variable, that can only be used within the block expression. You can
+        give it any name you like.
+
+      <p>
+        Let's now change our <code>application</code> template to use the
+        <code>expression</code> to display the hobbies list:
+
+      <pre><code>&lt;p&gt;My hobbies are:&lt;/p&gt;
+&lt;ul&gt;
+  {{#each hobbies as |hobby|}}
+    &lt;li&gt;{{hobby}}&lt;/li&gt;
+  {{/each}}
+&lt;/ul&gt;</code></pre>
+
+      <p>
+        If all went well, you should now see the following in your browser:
+
+        <img src="./img/hobby-list-screenshot.png" alt="My hobbies are ...">
+    </section>
+  </main>
+</div>

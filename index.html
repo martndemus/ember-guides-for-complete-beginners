@@ -264,6 +264,80 @@ export default Ember.Controller.extend({
         If all went well, you should now see the following in your browser:
 
         <img src="./img/hobby-list-screenshot.png" alt="My hobbies are ...">
+
+      <h3>Adding interactivity</h3>
+
+      <p>
+        Chances are, that you want your users to be able to interact with your
+        app. For example, make something happen when a users clicks on a button
+        or fills in a form field. Ember calls these type of interactions
+        'actions'.
+
+      <p>
+        Let's try to add a simple button that adds one to a number everytime you
+        click on it. First we'll set up the controller with a
+        <code>clicks</code> property and make the template display the clicks
+        value and a button. Starting with the controller:
+
+      <pre><code>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  name: 'Marten Schilstra',
+  hobbies: ['Chess', 'Pinball', 'Hockey'],
+  clicks: 0
+});</code></pre>
+
+      <p>
+        And add the following to the template:
+
+      <pre><code>&lt;p&gt;Clicks: {{clicks}}&lt;/p&gt;
+&lt;button&gt;Click me&lt;/button&gt;</code></pre>
+
+      <p>
+        Now the page should display <code>Clicks: 0</code> and a button stating
+        <code>Click me</code>, but if you click the button, nothing happens.
+        Let's make something happen using an Ember action. This is done using
+        the <code>action</code> expression in your handlebars template. The
+        controller belonging to the template will also need a function handling
+        that action.
+
+      <p>
+        We want the action to happen when the button is clicked, so we need to
+        set the <code>onclick</code> attribute of the button with the action
+        expression. Update the HTML for the button to the following:
+
+      <pre><code>&lt;button onclick={{action "buttonClicked"}}&gt;Click me&lt;/button&gt;</pre></code>
+
+      <p>
+        The string argument to the <code>action</code> is the name of the action
+        we want to call on the corresponding controller. Actions are looked up
+        as functions inside the <code>actions</code> property. Here's how it
+        looks in our example:
+
+      <pre><code>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  name: 'Marten Schilstra',
+  hobbies: ['Chess', 'Pinball', 'Hockey'],
+  clicks: 0,
+
+  actions: {
+    buttonClicked() {
+      let clicks = this.get('clicks');
+      this.set('clicks', clicks + 1);
+    }
+  }
+});</code></pre>
+
+      <p>
+        If you now click on the button, the number of clicks displayed increases
+        by one.
+      <p>
+        Keen observers will have noticed that the action function in the
+        controller contains <code>this.get</code> and <code>this.set</code>.
+        Normally you wouldn't need to use functions to update a property on an
+        object, but we'll assume for now that this is required for Ember's
+        template renderer to be able to detect when it needs to update the page.
     </section>
   </main>
 </div>

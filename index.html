@@ -414,10 +414,9 @@ export default Ember.Controller.extend({
         by one.
       <p>
         Keen observers will have noticed that the action function in the
-        controller contains <code>this.get</code> and <code>this.set</code>.
-        Normally you wouldn't need to use functions to update a property on an
-        object, but we'll assume for now that this is required for Ember's
-        template renderer to be able to detect when it needs to update the page.
+        controller contains <code>this.set</code>. Just like
+        <code>this.get</code> to retrieve values of properties, you need
+        <code>this.set</code> to update a property's value.
     </section>
   </main>
 </div>

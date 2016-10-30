@@ -265,6 +265,86 @@ export default Ember.Controller.extend({
 
         <img src="./img/hobby-list-screenshot.png" alt="My hobbies are ...">
 
+      <h3>Computed Properties</h3>
+
+      <p>
+        Sometimes the properties on your controller aren't necissarily how you
+        want them to be displayed. Let's start with an example to demonstrate
+        this. Add the birthdate property to the <code>application</code>
+        controller:
+
+      <pre><code>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  name: 'Marten Schilstra',
+  hobbies: ['Chess', 'Pinball', 'Hockey'],
+  birthdate: new Date(1984, 10, 21)
+});</code></pre>
+
+      <p>
+        Now add the following HTML to the <code>application</code> template:
+
+      <pre><code>&lt;p&gt;My birthdate is: {{birthdate}}&lt;/p&gt;</code></pre>
+
+      <p>
+        As a result of this, you should see something like
+        <code>My birthdate is on: Wed Nov 21 1984 00:00:00 GMT+0100 (CET)</code>
+        in the browser.
+
+      <p>
+        The result gets the point across, but we propably meant to display
+        something simpler like <code>Wed Nov 21 1984</code>, because the time
+        and timezone are irrelevant to a birthdate
+
+      <p>
+        We can use a <em>Computed Property</em> to achieve the desired result.
+        Computed properties are functions that use other properties and return a
+        new value based on those properties. Computed properties need to declare
+        which properties they depend on. This way Ember can lazily evaluate the
+        computed property function when it detects that one or more of the
+        properties it depends on has changed.
+
+      <p>
+        Let's look at an example computed property that returns the date as a
+        string in the format that we want it to be:
+
+      <pre><code>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  name: 'Marten Schilstra',
+  hobbies: ['Chess', 'Pinball', 'Hockey'],
+  birthdate: new Date(1984, 10, 21),
+
+  birthdateFormatted: Ember.computed('birthdate', function() {
+    return this.get('birthdate').toDateString();
+  })
+});</code></pre>
+      <p>
+        If you look at the <code>birthdateFormatted</code> property, you'll
+        notice that we are using the <code>Ember.computed</code> function to
+        create the computed property. The first argument that we pass to that
+        function is <code>'birthdate'</code>, this is how you declare that the
+        computed property depends on the <code>birthdate</code> property. The
+        second argument is a function that computes a nicely formatted date from
+        the <code>birthdate</code> property. The function will be evaluated
+        every time <code>birthdate</code> changes.
+
+      <p>
+        You might also have noticed that the function to compute
+        <code>birthdateFormatted</code> uses the <code>this.get</code> function.
+        In this case using <code>this.birthdate</code> would have worked, but if
+        the property we wanted to retrieve was a computed property, that
+        wouldn't work. It's an Ember convention to use <code>get</code> to
+        retrieve the value of any property from an object.
+
+      <p>
+        Lastly we should also not forget to update the template to use
+        <code>{{birthdateFormatted}}</code> instead of just
+        <code>{{birthdate}}</code>. The result of that should look like the
+        following:
+
+        <img src="./img/formatted-date-cp-screenshot.png" alt="Wed Nov 21 1984">
+
       <h3>Adding interactivity</h3>
 
       <p>
